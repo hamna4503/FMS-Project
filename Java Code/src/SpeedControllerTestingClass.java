@@ -1,8 +1,9 @@
 import java.util.*;
+
 public class SpeedControllerTestingClass {
     public static SpeedController newObj=new SpeedController();
     public static void promptEnter(){
-        System.out.println("\nPress \"ENTER\" to continue...");
+        System.out.print("\nPress \"ENTER\" to continue...");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
     }
@@ -16,15 +17,36 @@ public class SpeedControllerTestingClass {
             sentinel= sc.nextInt();
             switch (sentinel){
                 case 1: {
-                    newObj.Increment();
+                    SpeedController.Signal checkIncrement=newObj.Increment();
+                    if(checkIncrement== SpeedController.Signal.INCREASE){
+                        System.out.print("Speed Incremented.\n");
+                    }
+                    else{
+                        System.out.print("Maximum Speed Reached. Cannot Increment Further.\n");
+                    }
                     break;
                 }
                 case 2:{
-                    newObj.Decrement();
+                    SpeedController.Signal checkDecrement=newObj.Decrement();
+                    if(checkDecrement== SpeedController.Signal.DECREASE){
+                        System.out.print("Speed Decremented.\n");
+                    }
+                    else{
+                        System.out.print("Vehicle already at rest. Cannot decrement further.\n");
+
+
+                    }
                     break;
                 }
                 case 3:{
-                    newObj.Brake();
+                    SpeedController.Signal checkBrake=newObj.Brake();
+                    if(checkBrake== SpeedController.Signal.BRAKE){
+                        System.out.print("Brake was applied. Stopping the vehicle...\n");
+                    }
+                    else{
+                        System.out.print("Vehicle already on rest. No application of brakes required.\n");
+                    }
+
                     break;
                 }
                 case 4:{

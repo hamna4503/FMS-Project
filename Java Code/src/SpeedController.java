@@ -7,6 +7,8 @@ public class SpeedController {
     //Speed of the car can be now lower than 0.
     public static final int minimumSpeed = 0;
 
+    public enum Signal {INCREASE, DECREASE,DO_NOTHING,BRAKE};
+
     //Initializing the speed of the vehicle.
     //Requested speed is initially null as no value has been entered yet.
     //Actual Speed is initially 0 as the vehicle will be initially on rest.
@@ -24,28 +26,30 @@ public class SpeedController {
     private boolean invariant() {
         return (this.requestedSpeed == null || inRange(this.requestedSpeed)) && (inRange(actualSpeed));
     }
-    //as brake would cause the vehicle to halt immediately
 
-    public void Increment() {
+
+    public Signal Increment() {
         this.actualSpeed += 5;
         if(this.invariant()) {
-            System.out.print("Speed incremented.\n");
+            return(Signal.INCREASE);
 
         }
         else{
             this.actualSpeed-=5;
-            System.out.print("Maximum Speed Reached. Cannot Increment Further.\n");
+            return(Signal.DO_NOTHING);
         }
     }
 
-    public void Decrement() {
+    public Signal Decrement() {
         this.actualSpeed -= 5;
         if(this.invariant()){
-        System.out.print("Speed decremented successfully.\n");
+        return(Signal.DECREASE);
+
         }
         else{
             this.actualSpeed+=5;
-            System.out.print("Vehicle already at rest. Cannot decrement further.\n");
+            return(Signal.DO_NOTHING);
+
         }
     }
 
@@ -57,13 +61,15 @@ public class SpeedController {
     }
 
 
-    public void Brake(){
+    public Signal Brake(){
         if(this.getCurrentSpeed()==0){
-            System.out.print("Vehicle already on rest. No application of brakes required.\n");
+            return(Signal.DO_NOTHING);
+
         }
         else{
             this.actualSpeed=0;
-            System.out.print("Brake was applied. Stopping the vehicle...\n");
+            return(Signal.BRAKE);
+
         }
     }
 
